@@ -1,0 +1,81 @@
+#!/bin/bash
+
+export EDITOR="vim"
+export PATH="${HOME}/.bin:${HOME}/.depot_tools:${HOME}/.local/bin:/usr/lib/ccache/bin:${PATH}"
+export JAVA_HOME="/usr/lib/jvm/default"
+export PYTHONDONTWRITEBYTECODE=1
+
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=${DEVKITPRO}/devkitARM
+
+export CCACHE_COMPRESS=1
+export CCACHE_DIR="${HOME}/.ccache"
+export USE_CCACHE=1
+
+export VAGRANT_DEFAULT_PROVIDER=libvirt
+
+export HISTFILESIZE=-1
+export HISTSIZE=-1
+export HISTTIMEFORMAT=" "
+PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+
+export WITHOUT_CHECK_API=true
+export SKIP_ABI_CHECKS=true
+
+alias rs='repo sync -c --no-clone-bundle --no-tags --no-repo-verify'
+alias mkpkg='makepkg -s --asdeps -r'
+alias mksrcinfo='makepkg --printsrcinfo > .SRCINFO'
+
+function alt-java() {
+    export JAVA_HOME="/usr/lib/jvm/${1}"
+    export PATH="/usr/lib/jvm/${1}/bin:$PATH"
+}
+
+function py2setup() {
+    . ~/.py2env/bin/activate
+}
+
+function allsubdirs() {
+    find -type d -execdir test -d "{}/$1" \; -print -prune
+}
+
+function fetchgit() {
+    for i in $(allsubdirs .git); do pushd ${i} && git fa --tags --prune; popd; done
+}
+
+# Prompt command
+if ! grep -q __prompt_command <<< "${PROMPT_COMMAND}"; then
+    PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
+fi
+
+__prompt_command() {
+    local EXIT=$?
+
+    local C_NON="\[\e[0m\]"
+    local C_ORG="\[\e[33m\]"
+    local C_CYN="\[\e[36m\]"
+    local C_RED="\[\e[31m\]"
+
+    PS1="┌[${C_ORG}\u@\h${C_NON}][${C_CYN}\w${C_NON}][${C_CYN}\t${C_NON}]"
+
+    if [ $EXIT != 0 ]; then
+        PS1+="[${C_RED}$EXIT${C_NON}]"
+    fi
+
+    PS1+="\n└${C_ORG}>${C_NON} "
+}
+
+function batchrename() {
+    \ls -1A > /tmp/batchrename-in
+    cp /tmp/batchrename-{in,out}
+
+    vim /tmp/batchrename-out
+
+    NRLINES=$(wc -l < /tmp/batchrename-in)
+
+    for i in $(seq 1 $NRLINES); do
+        awk 'FNR=='$i' {print $0}' /tmp/batchrename-{in,out} | xargs -d '\n' mv -i
+    done
+
+    rm /tmp/batchrename-{in,out}
+}
