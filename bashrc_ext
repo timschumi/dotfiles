@@ -79,3 +79,39 @@ function batchrename() {
 
     rm /tmp/batchrename-{in,out}
 }
+
+function testbox() {
+    OLDDIR=$(pwd)
+    BOXNAME="$1"
+    if [ -f "$1" ]; then
+        BOXNAME="testbox"
+        vagrant box add --name testbox "$1"
+    fi
+
+    mkdir -p /tmp/testbox
+    cd /tmp/testbox
+    vagrant init "$BOXNAME"
+    vagrant up
+    vagrant ssh
+    vagrant destroy
+    cd $OLDDIR
+    rm -rf /tmp/testbox
+
+    if [ "$BOXNAME" = "testbox" ]; then
+        vagrant box remove testbox
+        sudo rm -rf /var/lib/libvirt/images/testbox_vagrant_box_image_0.img
+        sudo virsh pool-refresh default
+    fi
+}
+
+function dewine() {
+    rm -f ~/.local/share/applications/wine-extension*.desktop
+    rm -f ~/.local/share/icons/hicolor/*/*/application-x-wine-extension*
+
+    rm -f ~/.local/share/applications/mimeinfo.cache
+    rm -f ~/.local/share/mime/packages/x-wine*
+    rm -f ~/.local/share/mime/application/x-wine-extension*
+
+    update-desktop-database ~/.local/share/applications
+    update-mime-database ~/.local/share/mime/
+}
