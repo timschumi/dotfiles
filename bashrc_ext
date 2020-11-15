@@ -67,6 +67,11 @@ __prompt_command() {
 
     PS1="┌[${C_ORG}\u@\h${C_NON}][${C_CYN}\w${C_NON}][${C_CYN}\t${C_NON}]"
 
+    RVM_PROMPT="$(~/.rvm/bin/rvm-prompt)"
+    if [ "$RVM_PROMPT" != "" ]; then
+        PS1+="[${C_RED}${RVM_PROMPT}${C_NON}]"
+    fi
+
     if [ $EXIT != 0 ]; then
         PS1+="[${C_RED}$EXIT${C_NON}]"
     fi
