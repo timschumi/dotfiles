@@ -25,6 +25,7 @@ export SKIP_ABI_CHECKS=true
 alias rs='repo sync -c --no-clone-bundle --no-tags --no-repo-verify'
 alias mkpkg='makepkg -s --asdeps -r'
 alias mksrcinfo='makepkg --printsrcinfo > .SRCINFO'
+alias pcp='time rsync --progress -ah'
 
 # git-prompt
 . /usr/share/git/git-prompt.sh
