@@ -26,6 +26,13 @@ alias rs='repo sync -c --no-clone-bundle --no-tags --no-repo-verify'
 alias mkpkg='makepkg -s --asdeps -r'
 alias mksrcinfo='makepkg --printsrcinfo > .SRCINFO'
 
+# git-prompt
+. /usr/share/git/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWUPSTREAM="auto"
+
 function alt-java() {
     export JAVA_HOME="/usr/lib/jvm/${1}"
     export PATH="/usr/lib/jvm/${1}/bin:$PATH"
@@ -55,11 +62,16 @@ __prompt_command() {
     local C_ORG="\[\e[33m\]"
     local C_CYN="\[\e[36m\]"
     local C_RED="\[\e[31m\]"
+    local C_GRN="\[\e[32m\]"
 
     PS1="┌[${C_ORG}\u@\h${C_NON}][${C_CYN}\w${C_NON}][${C_CYN}\t${C_NON}]"
 
     if [ $EXIT != 0 ]; then
         PS1+="[${C_RED}$EXIT${C_NON}]"
+    fi
+
+    if declare -f __git_ps1 > /dev/null; then
+        PS1+="$(__git_ps1 "[${C_GRN}%s${C_NON}]")"
     fi
 
     PS1+="\n└${C_ORG}>${C_NON} "
