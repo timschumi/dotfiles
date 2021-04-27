@@ -110,7 +110,11 @@ function testbox() {
 
     mkdir -p /tmp/testbox
     cd /tmp/testbox
+    if [ -n "$2" ]; then
+    vagrant init --box-version "$2" "$BOXNAME"
+    else
     vagrant init "$BOXNAME"
+    fi
     vagrant up
     vagrant ssh
     vagrant destroy
