@@ -12,6 +12,7 @@ export DEVKITARM=${DEVKITPRO}/devkitARM
 export CCACHE_COMPRESS=1
 export CCACHE_DIR="${HOME}/.ccache"
 export USE_CCACHE=1
+export CCACHE_EXEC=/usr/bin/ccache
 
 export VAGRANT_DEFAULT_PROVIDER=libvirt
 
