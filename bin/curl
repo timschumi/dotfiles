@@ -1,0 +1,14 @@
+#!/bin/bash
+
+newargs=()
+
+for i in "$@"; do
+    if [ "$i" == "--no-proxy" ]; then
+        >&2 echo "curl-phony: Replacing --no-proxy..."
+        newargs+=("--noproxy")
+        continue
+    fi
+    newargs+=("$i")
+done
+
+/usr/bin/curl "${newargs[@]}"
