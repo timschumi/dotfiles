@@ -2,6 +2,6 @@
 
 BASEDIR="$(dirname "$0")"
 
-# Hook into .bashrc
 echo ". \"${BASEDIR}/bashrc_ext\"" >> ~/.bashrc
 ln -s "${BASEDIR}/vimrc" ~/.vimrc
+ln -s "${BASEDIR}/tmux.conf" ~/.tmux.conf
