@@ -79,9 +79,9 @@ set smarttab
 
 " Indentation settings for using 4 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-"set shiftwidth=4
-"set softtabstop=4
-"set expandtab
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
