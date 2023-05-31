@@ -67,21 +67,21 @@ __prompt_command() {
     local C_RED="\[\e[31m\]"
     local C_GRN="\[\e[32m\]"
 
-    PS1="┌[${C_ORG}\u@\h${C_NON}][${C_CYN}\w${C_NON}][${C_CYN}\t${C_NON}]"
+    PS1="\[┌[\]${C_ORG}\[\u@\h\]${C_NON}\[][\]${C_CYN}\[\w\]${C_NON}\[][\]${C_CYN}\[\t\]${C_NON}\[]\]"
 
     if [ -x "~/.rvm/bin/rvm-prompt" ]; then
         RVM_PROMPT="$(~/.rvm/bin/rvm-prompt)"
     fi
     if [ "$RVM_PROMPT" != "" ]; then
-        PS1+="[${C_RED}${RVM_PROMPT}${C_NON}]"
+        PS1+="\[[\]${C_RED}\[${RVM_PROMPT}\]${C_NON}\[]\]"
     fi
 
     if [ $EXIT != 0 ]; then
-        PS1+="[${C_RED}$EXIT${C_NON}]"
+        PS1+="\[[\]${C_RED}\[$EXIT\]${C_NON}\[]\]"
     fi
 
     if declare -f __git_ps1 > /dev/null; then
-        PS1+="$(__git_ps1 "[${C_GRN}%s${C_NON}]")"
+        PS1+="$(__git_ps1 "\[[\]${C_GRN}\[%s\]${C_NON}\[]\]")"
     fi
 
     PS1+="\n└${C_ORG}>${C_NON} "
