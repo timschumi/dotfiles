@@ -30,11 +30,13 @@ alias mksrcinfo='makepkg --printsrcinfo > .SRCINFO'
 alias pcp='time rsync --progress -ah'
 
 # git-prompt
-. /usr/share/git/git-prompt.sh
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM="auto"
+if [ -f "/usr/share/git/git-prompt.sh" ]; then
+    . /usr/share/git/git-prompt.sh
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM="auto"
+fi
 
 function alt-java() {
     export JAVA_HOME="/usr/lib/jvm/${1}"
